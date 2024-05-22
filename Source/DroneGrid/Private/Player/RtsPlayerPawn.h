@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "RtsPlayerPawn.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
 UCLASS(Abstract)
 class ARtsPlayerPawn : public APawn
 {
@@ -26,4 +28,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArm;
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* Camera;
 };
