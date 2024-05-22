@@ -17,6 +17,9 @@ public:
 	// Sets default values for this pawn's properties
 	ARtsPlayerPawn();
 
+	UPROPERTY(VisibleAnywhere)
+	bool bCanMove = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
