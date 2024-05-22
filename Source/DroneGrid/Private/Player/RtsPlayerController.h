@@ -37,7 +37,7 @@ private:
 
 	bool bMouseIsLocked = false;
 
-	FVector2d LockedMousePosition;
+	FVector2D LockedMousePosition;
 
 	TWeakObjectPtr<UGameViewportClient> ViewportClient;
 

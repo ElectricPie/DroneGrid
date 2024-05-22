@@ -37,6 +37,8 @@ public:
 private:
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float MoveSpeed = 1800.f;
+	UPROPERTY(EditAnywhere, Category="Movement", meta=(ToolTip="The distance +- from 0, 0 the pawn can move"))
+	FVector2D Boundaries = FVector2D(2000.f, 2000.f);
 
 	UPROPERTY()
 	USceneComponent* Root;
