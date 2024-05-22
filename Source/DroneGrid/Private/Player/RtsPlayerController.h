@@ -27,6 +27,8 @@ private:
 	UInputMappingContext* MappingContext;
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* UnlockCameraAction;
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* MoveCameraAction;
 
 	UPROPERTY(VisibleAnywhere)
 	ARtsPlayerPawn* PlayerPawn;
@@ -35,4 +37,6 @@ private:
 	void UnlockCamera();
 	UFUNCTION()
 	void LockCamera();
+	UFUNCTION()
+	void Move(const FInputActionValue& Value);
 };

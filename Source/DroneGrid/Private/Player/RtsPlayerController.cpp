@@ -16,7 +16,8 @@ void ARtsPlayerController::BeginPlay()
 
 	PlayerPawn = Cast<ARtsPlayerPawn>(GetPawn());
 
-	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<
+		UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		InputSubsystem->AddMappingContext(MappingContext, 0);
 	}
@@ -28,24 +29,38 @@ void ARtsPlayerController::SetupInputComponent()
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		EnhancedInputComponent->BindAction(UnlockCameraAction, ETriggerEvent::Started, this, &ARtsPlayerController::UnlockCamera);
-		EnhancedInputComponent->BindAction(UnlockCameraAction, ETriggerEvent::Completed, this, &ARtsPlayerController::LockCamera);
-		EnhancedInputComponent->BindAction(UnlockCameraAction, ETriggerEvent::Canceled, this, &ARtsPlayerController::LockCamera);
+		EnhancedInputComponent->BindAction(UnlockCameraAction, ETriggerEvent::Started, this,
+		                                   &ARtsPlayerController::UnlockCamera);
+		EnhancedInputComponent->BindAction(UnlockCameraAction, ETriggerEvent::Completed, this,
+		                                   &ARtsPlayerController::LockCamera);
+		EnhancedInputComponent->BindAction(UnlockCameraAction, ETriggerEvent::Canceled, this,
+		                                   &ARtsPlayerController::LockCamera);
+
+		EnhancedInputComponent->BindAction(MoveCameraAction, ETriggerEvent::Triggered, this,
+		                                   &ARtsPlayerController::Move);
 	}
 }
 
 void ARtsPlayerController::UnlockCamera()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Unlocking Camera"));
 	if (PlayerPawn == nullptr) return;
 
 	PlayerPawn->bCanMove = true;
+	bShowMouseCursor = false;
 }
 
 void ARtsPlayerController::LockCamera()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Locking Camera"));
 	if (PlayerPawn == nullptr) return;
-	
+
 	PlayerPawn->bCanMove = false;
+	bShowMouseCursor = true;
+}
+
+void ARtsPlayerController::Move(const FInputActionValue& Value)
+{
+	if (PlayerPawn == nullptr) return;
+
+	const FVector MoveAxisValue = Value.Get<FVector>();
+	PlayerPawn->Move(MoveAxisValue.GetSafeNormal());
 }

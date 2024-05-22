@@ -5,6 +5,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ARtsPlayerPawn::ARtsPlayerPawn()
@@ -12,6 +13,9 @@ ARtsPlayerPawn::ARtsPlayerPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Root = CreateDefaultSubobject<USceneComponent>("Root Component");
+	RootComponent = Root;
+	
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("Camera Arm");
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 1200.f;
@@ -20,6 +24,20 @@ ARtsPlayerPawn::ARtsPlayerPawn()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(SpringArm);
+}
+
+void ARtsPlayerPawn::Move(FVector Direction)
+{
+	if (!bCanMove) return;
+
+	const FVector DeltaLocation = Direction * MoveSpeed * UGameplayStatics::GetWorldDeltaSeconds(this);
+
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, FString::Printf(TEXT("DeltaLocation: %s"), *DeltaLocation.ToString()));
+	}
+	
+	AddActorLocalOffset(DeltaLocation);
 }
 
 // Called when the game starts or when spawned

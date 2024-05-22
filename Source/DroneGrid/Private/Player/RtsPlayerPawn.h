@@ -20,6 +20,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	bool bCanMove = false;
 
+	UFUNCTION()
+	void Move(FVector Direction);
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,6 +35,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float MoveSpeed = 500.f;
+
+	UPROPERTY()
+	USceneComponent* Root;
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere)
