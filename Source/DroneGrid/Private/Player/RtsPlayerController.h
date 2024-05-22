@@ -20,6 +20,8 @@ class ARtsPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaSeconds) override;
+
 	virtual void SetupInputComponent() override;
 
 private:
@@ -32,6 +34,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	ARtsPlayerPawn* PlayerPawn;
+
+	bool bMouseIsLocked = false;
+
+	FVector2d LockedMousePosition;
+
+	TWeakObjectPtr<UGameViewportClient> ViewportClient;
 
 	UFUNCTION()
 	void UnlockCamera();

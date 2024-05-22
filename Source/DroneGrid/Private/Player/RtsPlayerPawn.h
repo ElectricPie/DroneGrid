@@ -36,7 +36,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category="Movement")
-	float MoveSpeed = 500.f;
+	float MoveSpeed = 1800.f;
 
 	UPROPERTY()
 	USceneComponent* Root;

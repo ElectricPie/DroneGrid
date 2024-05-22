@@ -31,12 +31,6 @@ void ARtsPlayerPawn::Move(FVector Direction)
 	if (!bCanMove) return;
 
 	const FVector DeltaLocation = Direction * MoveSpeed * UGameplayStatics::GetWorldDeltaSeconds(this);
-
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, FString::Printf(TEXT("DeltaLocation: %s"), *DeltaLocation.ToString()));
-	}
-	
 	AddActorLocalOffset(DeltaLocation);
 }
 

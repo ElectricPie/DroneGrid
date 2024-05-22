@@ -16,10 +16,28 @@ void ARtsPlayerController::BeginPlay()
 
 	PlayerPawn = Cast<ARtsPlayerPawn>(GetPawn());
 
+	if (GEngine && GEngine->GameViewport)
+	{
+		ViewportClient = GEngine->GameViewport;
+	}
+
 	if (UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<
 		UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		InputSubsystem->AddMappingContext(MappingContext, 0);
+	}
+}
+
+void ARtsPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	// Keeps the mouse cursor in the centre of the screen as it will prevent movement when the cursor hits the edge of the screen
+	if (bMouseIsLocked)
+	{
+		FVector2d ViewportSize;
+		ViewportClient->GetViewportSize(ViewportSize);
+		SetMouseLocation(ViewportSize.X / 2, ViewportSize.Y / 2);
 	}
 }
 
@@ -47,6 +65,9 @@ void ARtsPlayerController::UnlockCamera()
 
 	PlayerPawn->bCanMove = true;
 	bShowMouseCursor = false;
+	bMouseIsLocked = true;
+
+	GetMousePosition(LockedMousePosition.X, LockedMousePosition.Y);
 }
 
 void ARtsPlayerController::LockCamera()
@@ -55,6 +76,9 @@ void ARtsPlayerController::LockCamera()
 
 	PlayerPawn->bCanMove = false;
 	bShowMouseCursor = true;
+	bMouseIsLocked = false;
+
+	SetMouseLocation(LockedMousePosition.X, LockedMousePosition.Y);
 }
 
 void ARtsPlayerController::Move(const FInputActionValue& Value)
