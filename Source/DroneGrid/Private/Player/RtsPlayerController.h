@@ -31,6 +31,8 @@ private:
 	UInputAction* UnlockCameraAction;
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MoveCameraAction;
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* ZoomCameraAction;
 
 	UPROPERTY(VisibleAnywhere)
 	ARtsPlayerPawn* PlayerPawn;
@@ -47,4 +49,6 @@ private:
 	void LockCamera();
 	UFUNCTION()
 	void Move(const FInputActionValue& Value);
+	UFUNCTION()
+	void Zoom(const FInputActionValue& Value);
 };

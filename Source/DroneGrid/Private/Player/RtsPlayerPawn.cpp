@@ -48,6 +48,15 @@ void ARtsPlayerPawn::Move(FVector Direction)
 	SetActorLocation(NewLocation);
 }
 
+void ARtsPlayerPawn::Zoom(float Direction)
+{
+	const float DeltaDistance = DistancePerZoom * Direction;
+	if (FMath::IsWithin(SpringArm->TargetArmLength + DeltaDistance, MinZoom, MaxZoom))
+	{
+		SpringArm->TargetArmLength += DeltaDistance;
+	}
+}
+
 // Called when the game starts or when spawned
 void ARtsPlayerPawn::BeginPlay()
 {

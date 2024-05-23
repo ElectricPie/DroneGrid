@@ -56,6 +56,9 @@ void ARtsPlayerController::SetupInputComponent()
 
 		EnhancedInputComponent->BindAction(MoveCameraAction, ETriggerEvent::Triggered, this,
 		                                   &ARtsPlayerController::Move);
+
+		EnhancedInputComponent->BindAction(ZoomCameraAction, ETriggerEvent::Triggered, this,
+		                                   &ARtsPlayerController::Zoom);
 	}
 }
 
@@ -87,4 +90,12 @@ void ARtsPlayerController::Move(const FInputActionValue& Value)
 
 	const FVector MoveAxisValue = Value.Get<FVector>();
 	PlayerPawn->Move(MoveAxisValue.GetSafeNormal());
+}
+
+void ARtsPlayerController::Zoom(const FInputActionValue& Value)
+{
+	if (PlayerPawn == nullptr) return;
+
+	const float ZoomDirection = Value.Get<float>();
+	PlayerPawn->Zoom(ZoomDirection);
 }
