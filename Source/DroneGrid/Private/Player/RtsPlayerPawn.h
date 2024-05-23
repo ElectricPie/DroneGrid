@@ -17,6 +17,15 @@ public:
 	// Sets default values for this pawn's properties
 	ARtsPlayerPawn();
 
+	UPROPERTY(VisibleAnywhere)
+	bool bCanMove = false;
+
+	UFUNCTION()
+	void Move(FVector Direction);
+
+	UFUNCTION()
+	void Zoom(float Direction);
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,6 +38,20 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float MoveSpeed = 1800.f;
+	UPROPERTY(EditAnywhere, Category="Movement", meta=(ToolTip="The distance +- from 0, 0 the pawn can move"))
+	FVector2D Boundaries = FVector2D(2000.f, 2000.f);
+
+	UPROPERTY(EditAnywhere, Category="Zoom")
+	float DistancePerZoom = 200.f;
+	UPROPERTY(EditAnywhere, Category="Zoom")
+	float MinZoom = 400.f;
+	UPROPERTY(EditAnywhere, Category="Zoom")
+	float MaxZoom = 1500.f;
+
+	UPROPERTY()
+	USceneComponent* Root;
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere)
